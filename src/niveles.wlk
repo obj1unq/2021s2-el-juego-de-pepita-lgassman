@@ -35,7 +35,9 @@ object tutorial3 {
 		game.addVisual(nido)
 		game.addVisual(silvestre)
 		game.addVisual(pepita)
+		game.addVisual(cartel)
 		config.configurarTeclas()
+		config.configurarGravedad()
 		config.configurarColisiones()
 	}
 
@@ -45,10 +47,12 @@ object config {
 
 	method configurarTeclas() {
 		// Esto se podría hacer mejor, pero lo dejaremos así por ahora.
-		keyboard.left().onPressDo( { pepita.irA( pepita.position().left(1) )  })
-		keyboard.right().onPressDo({ pepita.irA( pepita.position().right(1)) })
-		keyboard.up().onPressDo({ pepita.irA( pepita.position().up(1)) })
-		keyboard.down().onPressDo({ pepita.irA( pepita.position().down(1)) })
+		//keyboard.left().onPressDo( { pepita.irA( pepita.position().left(1) )  })
+		keyboard.left().onPressDo( { pepita.mover(izquierda)  })
+		//keyboard.right().onPressDo({ pepita.irA( pepita.position().right(1)) })
+		keyboard.right().onPressDo({ pepita.mover(derecha) })
+		keyboard.up().onPressDo({ pepita.mover(arriba) })
+		keyboard.down().onPressDo({ pepita.mover(abajo) })
 		
 		keyboard.c().onPressDo({ pepita.comeComidasDebajo() })
 	}
@@ -61,7 +65,10 @@ object config {
 	}
 
 	method configurarColisiones() {
-		game.onCollideDo(pepita, { algo => algo.teEncontro(pepita)})
+		game.onCollideDo(pepita, {algo => algo.teEncontro(pepita)})
+
+//		game.onCollideDo(nido, { personaje => personaje.ganar()})
+//		game.onCollideDo(silvestre, { personaje => personaje.perder()})
 	}
 
 }

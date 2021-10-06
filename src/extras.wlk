@@ -3,13 +3,14 @@ import wollok.game.*
 
 object nido {
 
-	var property position = game.at(7, 8)
+	var property position = game.at(3, 5)
 
 	method image() { return "nido.png" }
-
+	
 	method teEncontro(ave) {
-		game.stop()
+		ave.ganar()
 	}
+
 }
 
 object silvestre {
@@ -22,6 +23,11 @@ object silvestre {
 	method x() {
 		return pepita.position().x().max(3) 
 	}
+	
+	method teEncontro(ave) {
+		ave.perder()
+	}
+	
 
 }
 
