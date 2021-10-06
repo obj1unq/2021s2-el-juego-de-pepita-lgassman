@@ -7,7 +7,9 @@ object pepita {
 	var property position = game.origin()
 
 	method image() {
-		return if (self.estaEnElNido()) "pepita-grande.png" else "pepita.png"
+		return 	if (self.perdio()) "pepita-gris.png" 
+				else if (self.estaEnElNido()) "pepita-grande.png" 
+				else "pepita.png"
 	}
 
 	method come(comida) {
@@ -19,8 +21,25 @@ object pepita {
 	}
 
 	method irA(nuevaPosicion) {
+		self.validarEnergia()
 		self.vola(position.distance(nuevaPosicion))
 		position = nuevaPosicion
+	}
+	
+	method validarEnergia() {
+		if (self.estaCansada()) {
+			self.error("No tengo energía para volar")	
+		}		
+	}
+	
+	method comeYDesaparece(comida) { 
+		self.come(comida)
+		game.removeVisual(comida)
+	}
+
+	method comeComidasDebajo() {
+		const comidas = game.colliders(self)
+		comidas.forEach({comida => self.comeYDesaparece(comida)})
 	}
 
 	method estaCansada() {
@@ -28,7 +47,25 @@ object pepita {
 	}
 
 	method estaEnElNido() {
-		return position == nido.position()
+		return self.estaEnLaMismaPosicion(nido)
+	}
+	method teAtrapoSilvestre() {
+		return self.estaEnLaMismaPosicion(silvestre)
+	}
+	
+	method estaEnLaMismaPosicion(algo) {
+		return position == algo.position()
+//		return game.colliders(self).contains(algo)
+	}
+	
+	method perdio() {
+		return self.teAtrapoSilvestre() or self.estaCansada() 
+	}
+	
+	method caerSiPodes() {
+		if (position.y() > 0) {			
+			position = position.down(1)  
+		}
 	}
 
 }

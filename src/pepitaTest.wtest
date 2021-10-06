@@ -4,10 +4,11 @@ import comidas.*
 import extras.*
 
 describe "Tests de Pepita" {
-
+	
 	method initialize() {
 		// El game no se reinicia en cada test: https://github.com/uqbar-project/wollok/issues/1896
 		game.clear()
+		game.addVisual(pepita)
 	}
 
 	test "Al comer pepita aumenta su energia" {
@@ -40,6 +41,24 @@ describe "Tests de Pepita" {
 		pepita.irA(nido.position())
 		assert.equals("pepita-grande.png", pepita.image())
 	}
+	
+	test "Al estar en la misma posicion que silvestre pepita se pone gris" {
+		pepita.irA(silvestre.position())
+		assert.equals("pepita-gris.png", pepita.image())
+	}
 
 }
 
+describe "Silvestre" {
+	
+	test "Se encuentra siempre debajo de pepita" {
+		pepita.irA(game.at(5, 5))
+		assert.equals(game.at(5, 0), silvestre.position())
+	}
+	
+	test "Tiene un mínimo en x" {
+		pepita.irA(game.origin())
+		assert.equals(game.at(3, 0), silvestre.position())
+	}
+	
+}

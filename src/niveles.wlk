@@ -22,6 +22,7 @@ object tutorial2 {
 		game.addVisual(silvestre)
 		game.addVisual(pepita)
 		config.configurarTeclas()
+		config.configurarGravedad()
 	}
 
 }
@@ -43,8 +44,20 @@ object tutorial3 {
 object config {
 
 	method configurarTeclas() {
-		keyboard.left().onPressDo({ pepita.irA(pepita.position().left(1))})
-		keyboard.right().onPressDo({ pepita.irA(pepita.position().right(1))})
+		// Esto se podría hacer mejor, pero lo dejaremos así por ahora.
+		keyboard.left().onPressDo( { pepita.irA( pepita.position().left(1) )  })
+		keyboard.right().onPressDo({ pepita.irA( pepita.position().right(1)) })
+		keyboard.up().onPressDo({ pepita.irA( pepita.position().up(1)) })
+		keyboard.down().onPressDo({ pepita.irA( pepita.position().down(1)) })
+		
+		keyboard.c().onPressDo({ pepita.comeComidasDebajo() })
+	}
+	
+	method configurarGravedad() {
+		game.onTick(800, "GRAVEDAD", { pepita.caerSiPodes() })
+		
+//		Si lo quiero frenar
+//		game.removeTickEvent("GRAVEDAD")
 	}
 
 	method configurarColisiones() {
