@@ -1,6 +1,7 @@
 import extras.*
 import wollok.game.*
 
+object izquierda{
 	method siguiente(posicion) {
 		return posicion.left(1)
 	}
