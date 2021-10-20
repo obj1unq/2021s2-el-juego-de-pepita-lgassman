@@ -12,7 +12,7 @@ describe "Tests de Pepita" {
 	}
 
 	test "Al comer pepita aumenta su energia" {
-		pepita.come(manzana)
+		pepita.come(new Manzana())
 		assert.equals(140, pepita.energia())
 	}
 
@@ -60,5 +60,20 @@ describe "Silvestre" {
 		pepita.irA(game.origin())
 		assert.equals(game.at(3, 0), silvestre.position())
 	}
+	
+//	only test "manzanas con 2 new" {
+//		const manzana1 = new Manzana()
+//		const manzana2 = new Manzana()
+//		const miSet = #{manzana1, manzana2}
+//		assert.equals(manzana1, manzana2)
+//	}
+//	
+//	 test "manzanas con 1 new" {
+//		const manzana1 = new Manzana()
+//		const manzana2 = manzana1
+//		const miSet = #{manzana1, manzana2}
+//		assert.equals(manzana1, manzana2)
+//	}
+	
 	
 }

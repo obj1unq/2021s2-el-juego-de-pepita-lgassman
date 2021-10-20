@@ -1,5 +1,6 @@
 import extras.*
 import wollok.game.*
+import comidas.*
 
 object izquierda{
 	method siguiente(posicion) {
@@ -43,8 +44,8 @@ object abajo {
 }
 
 object cartel {
-	var property position = game.at(5,5)
-	var property text = ""
+	const property position = game.at(5,5)
+	const property text = "presione ENTER para salir"
 	method textColor() { 
 		return "ff0000ff"
 	}
@@ -52,9 +53,10 @@ object cartel {
 
 object pepita {
 
-	var property energia = 100
+	var property energia = 10000
 	var property position = game.origin()
 	var direccion = izquierda
+	var enJuego = true
 
 	method image() {
 		return 	"pepita-" + self.sufijo() + ".png" 
@@ -76,9 +78,11 @@ object pepita {
 	
 	method terminar(mensaje) {
 		game.say(self, mensaje)
-		cartel.text("presione ENTER para salir");
+		game.addVisual(cartel)
 		game.removeTickEvent("GRAVEDAD")
+		game.removeTickEvent("ALIMENTOS")
 		keyboard.enter().onPressDo({game.stop()})
+		enJuego = false
 		//game.schedule(2000, {game.stop()})		
 	}
 	
@@ -91,7 +95,14 @@ object pepita {
 		energia = energia - kms * 9
 	}
 	
+	method validarEnJuego() {
+		if(!enJuego) {
+			self.error("Ya terminé")
+		}
+	}
+	
 	method mover(_direccion) {
+		self.validarEnJuego()
 		direccion = _direccion
 		self.irA(_direccion.siguiente(self.position()))
 	}
@@ -110,7 +121,7 @@ object pepita {
 	
 	method comeYDesaparece(comida) { 
 		self.come(comida)
-		game.removeVisual(comida)
+		generadorAlimentos.remover(comida)
 	}
 
 	method comeComidasDebajo() {
