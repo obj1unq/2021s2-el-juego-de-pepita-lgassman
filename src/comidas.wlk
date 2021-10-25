@@ -2,8 +2,9 @@ import wollok.game.*
 import randomizer.*
 
 class Manzana {
+	const tiempoDeVida = 100
 
-	const property position = game.at(1, 8)
+	var property position = game.at(1, 8)
 	
 	method image() = "manzana.png"
 
@@ -11,6 +12,23 @@ class Manzana {
 	
 	method teEncontro(ave) {
 		ave.comeYDesaparece(self)	
+	}
+	
+	method aparecer() {
+		game.addVisual(self)
+		game.onTick(800, self.onTickId(), { self.caer() })
+		game.schedule(tiempoDeVida, { self.desaparecer() }) 
+	}
+	
+	method onTickId() = "GRAVEDAD" + self.identity().toString()
+	
+	method desaparecer() {
+		game.removeTickEvent(self.onTickId())
+		game.removeVisual(self)
+	}
+	
+	method caer() {
+		position = position.down(1)
 	}
 
 }
@@ -35,7 +53,7 @@ class Alpiste {
 object manzanaFactory {
 	
 	method nuevoAlimento() {
-		return new Manzana(position=randomizer.emptyPosition())
+		return new Manzana(position=randomizer.emptyPosition(), tiempoDeVida = (1000..5000).anyOne())
 	}
 }
 
@@ -71,8 +89,7 @@ object generadorAlimentos {
 	}
 	
 	method generarNuevaComida() {
-		const indiceAleatorio = (0 .. factoriesAlimentos.size() -1).anyOne()
-		const factory = factoriesAlimentos.get(indiceAleatorio)
+		const factory = factoriesAlimentos.anyOne()
 		return factory.nuevoAlimento()
 	}
 			

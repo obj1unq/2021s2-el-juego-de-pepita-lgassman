@@ -31,3 +31,7 @@ object silvestre {
 
 }
 
+object start {
+	const property position = game.center()
+	method text() = "Presione ESPACIO para empezar"
+}

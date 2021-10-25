@@ -60,6 +60,26 @@ object tutorial4 {
 
 }
 
+object pantallaDeInicio {
+
+	// Cada 3 segundos se cree una manzana
+	// Las manzanas deben durar X segundos y desaparecer
+	method iniciar() {
+		game.addVisual(start)
+		game.onTick(3000, "AGREGAR MANZANA", { self.agregarNuevaManzana() })
+		keyboard.space().onPressDo({ 
+			game.clear()
+			tutorial4.iniciar()
+		})
+	}
+	
+	method agregarNuevaManzana() {
+		const manzana = manzanaFactory.nuevoAlimento()
+		manzana.aparecer()
+	}
+
+}
+
 object config {
 
 	method configurarTeclas() {

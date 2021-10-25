@@ -53,7 +53,7 @@ object cartel {
 
 object pepita {
 
-	var property energia = 10000
+	var property energia = 100
 	var property position = game.origin()
 	var direccion = izquierda
 	var enJuego = true
